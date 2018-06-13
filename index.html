@@ -37,8 +37,190 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>window.jQuery || document.write("<script src='js/jquery-1.11.1.min.js'>\x3C/script>")</script>
+	<script src="js/plugins.js"></script>
+	<script src="js/main.js"></script>
 
 
+<!---------------------------- Script to get modals working -------------------->
+<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+			 *  Simple image gallery. Uses default settings
+			 */
+
+			$('.fancybox').fancybox();
+
+			/*
+			 *  Different effects
+			 */
+
+			// Change title type, overlay closing speed
+			$(".fancybox-effects-a").fancybox({
+				helpers: {
+					title : {
+						type : 'outside'
+					},
+					overlay : {
+						speedOut : 0
+					}
+				}
+			});
+
+			// Disable opening and closing animations, change title type
+			$(".fancybox-effects-b").fancybox({
+				openEffect  : 'none',
+				closeEffect	: 'none',
+
+				helpers : {
+					title : {
+						type : 'over'
+					}
+				}
+			});
+
+			// Set custom style, close if clicked, change title type and overlay color
+			$(".fancybox-effects-c").fancybox({
+				wrapCSS    : 'fancybox-custom',
+				closeClick : true,
+
+				openEffect : 'none',
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					overlay : {
+						css : {
+							'background' : 'rgba(238,238,238,0.85)'
+						}
+					}
+				}
+			});
+
+			// Remove padding, set opening and closing animations, close if clicked and disable overlay
+			$(".fancybox-effects-d").fancybox({
+				padding: 0,
+
+				openEffect : 'elastic',
+				openSpeed  : 150,
+
+				closeEffect : 'elastic',
+				closeSpeed  : 150,
+
+				closeClick : true,
+
+				helpers : {
+					overlay : null
+				}
+			});
+
+			/*
+			 *  Button helper. Disable animations, hide close button, change title type and content
+			 */
+
+			$('.fancybox-buttons').fancybox({
+				openEffect  : 'none',
+				closeEffect : 'none',
+
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					buttons	: {}
+				},
+
+				afterLoad : function() {
+					this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+				}
+			});
+
+
+			/*
+			 *  Thumbnail helper. Disable animations, hide close button, arrows and slide to next gallery item if clicked
+			 */
+
+			$('.fancybox-thumbs').fancybox({
+				prevEffect : 'none',
+				nextEffect : 'none',
+
+				closeBtn  : false,
+				arrows    : false,
+				nextClick : true,
+
+				helpers : {
+					thumbs : {
+						width  : 50,
+						height : 50
+					}
+				}
+			});
+
+			/*
+			 *  Media helper. Group items, disable animations, hide arrows, enable media and button helpers.
+			*/
+			$('.fancybox-media')
+				.attr('rel', 'media-gallery')
+				.fancybox({
+					openEffect : 'none',
+					closeEffect : 'none',
+					prevEffect : 'none',
+					nextEffect : 'none',
+
+					arrows : false,
+					helpers : {
+						media : {},
+						buttons : {}
+					}
+				});
+
+			/*
+			 *  Open manually
+			 */
+
+			$("#fancybox-manual-a").click(function() {
+				$.fancybox.open('1_b.jpg');
+			});
+
+			$("#fancybox-manual-b").click(function() {
+				$.fancybox.open({
+					href : 'iframe.html',
+					type : 'iframe',
+					padding : 5
+				});
+			});
+
+			$("#fancybox-manual-c").click(function() {
+				$.fancybox.open([
+					{
+						href : '1_b.jpg',
+						title : 'My title'
+					}, {
+						href : '2_b.jpg',
+						title : '2nd title'
+					}, {
+						href : '3_b.jpg'
+					}
+				], {
+					helpers : {
+						thumbs : {
+							width: 75,
+							height: 50
+						}
+					}
+				});
+			});
+
+
+		});
+	</script>
+	
 
 </head>
 <body>
@@ -72,7 +254,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	</header>
 	<!-- / header -->
 	
-	<div class="slider">
+	<div class="slider" id=slider>
 		<ul class="bxslider">
 
 
@@ -147,9 +329,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article>
 				<div class="pic"><img width="121" src="images/2.png" alt=""></div>
 				<div class="info">
-					<h3>Affordable Education</h3>
+					<h3>Affordable Education</h3> <li><a class="fancybox" href="#Pricing">Pricing Structure</a></li>
+                        </li>
 					<p>Teaching methods are important to us, we teach using the same material and standrds as.... </p>
-				</div>
+				</div>                                                                                                                                                                            
 			</article>
 
 <article>
@@ -275,7 +458,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		</a>
 	</div>
 <div class="container" id="Support">
-		<a href="#fancy" class="info-request"target="_blank">
+		<a href="#ModalDonate" class="info-request">
 			<span class="holder">
 				<span class="title">Support The CYC</span>
 				<span class="text"> What to put here jude?</span>
@@ -337,7 +520,17 @@ Cambodia:(+855) 0885381855
 	</footer>
 	<!-- / footer -->
 
-	<div id="fancy">
+
+
+
+
+
+
+
+<!------------------------------------------------------------------------ Pop Up Windows ------------------------------------------------------------------>
+
+
+	<div class="Fancy" id="ModalDonate" style="display: none;">
 		<h1>Supporting the CYC</h1>
 		<form action="#">
 			<div class="left">
@@ -357,19 +550,75 @@ Cambodia:(+855) 0885381855
 		</form>
 	</div>
 
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script>window.jQuery || document.write("<script src='js/jquery-1.11.1.min.js'>\x3C/script>")</script>
-	<script src="js/plugins.js"></script>
-	<script src="js/main.js"></script>
+
+<!---------------------------------- Pricing Popup -------------------------------------->
+
+<div class="Fancy" id="Pricing"  style="display: none;" >
+		<h3>Pricing Structure</h3>
+		<p>
+			
+		</p>
+	
+<table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Study Level</th>
+        <th>USD Per Month</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>English For Children</td>
+        <td>$1</td>
+       
+          </tr>
+          <tr>
+            <td>Lets Go One</td>
+            <td>$1.5</td>
+            
+          </tr>
+              <tr>
+                <td>Lets Go Two</td>
+                <td>$1.5</td>
+                
+              </tr>
+
+                 <tr>
+                        <td>Lets Go three</td>
+                        <td>$1.5</td>
+                        
+                      </tr>
+                         <tr>
+                                <td>Lets Go Four</td>
+                                <td>$2</td>
+                                
+                              </tr>
+                                 <tr>
+                                        <td>Lets Go Five</td>
+                                        <td>$2</td>
+                                        
+                                      </tr>
+                                 <tr>
+                                        <td>Lets Go Six</td>
+                                        <td>$2</td>
+                                        
+                                      </tr>
+                                             <tr>
+                                                    <td>Headway</td>
+                                                    <td>$2.5</td>
+                                                    
+                                                  </tr>
 
 
+    </tbody>
+  </table>
 
+<p>* Please contact the Headteacher if you are experiencing financial difficulties. 
+			
+		</p>
 
-
-
-    <!------------------------------------- Portfolio PAge Coming Soon -------------------------------------------------------------------------------------------->
-
-
+	</div>
 
 
 </body>
